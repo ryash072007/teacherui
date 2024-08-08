@@ -3,9 +3,9 @@ import React from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ArrowRight } from "lucide-react";
-import { useRouter } from "next/router";
+import { ArrowRight, Link } from "lucide-react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -33,16 +33,10 @@ const LoginPage = () => {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<User>({ resolver: zodResolver(UserSchema) });
+  } = useForm<User>({ resolver: zodResolver(UserSchema), mode: "onTouched" });
   const onSubmit: SubmitHandler<User> = (data) => {
     console.log(data);
-    try {
-      UserSchema.parse(data);
-      console.log("Valid");
-      router.push("/qualification"); // Redirect to qualification page
-    } catch (e) {
-      console.log("Invalid");
-    }
+    router.push("/qualification");
   };
   return (
     <div className="bg-black w-screen h-screen grid place-content-center">
