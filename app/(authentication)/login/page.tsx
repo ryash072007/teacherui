@@ -1,18 +1,21 @@
 "use client";
-import React from "react";
+import React, { use } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTheme } from "next-themes";
 
 // install shadcn
 // install zod
 // install reacthookform
 
 const LoginPage = () => {
+  const { setTheme } = useTheme();
+  setTheme("system");
   const UserSchema = z.object({
-    username: z.string().email().min(5),
+    email: z.string().email().min(5),
     password: z.string().min(6).max(100),
   });
   type formFields = z.infer<typeof UserSchema>;
@@ -25,55 +28,57 @@ const LoginPage = () => {
     console.log(data);
   };
   return (
-    <div className="container-md grid justify-center h-screen content-center bg-black">
+    <div className="container-lg grid justify-center w-screen h-screen content-center">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="container w-[500px] h-[330px] grid grid-rows-3 gap-4">
-          <div className="container text-5xl content-center font-bold row-span-1 px-2 text-white grid grid-cols-3 ">
-            <div className="contianer row-span-full text-nowrap pl-8">
-              Log in
-            </div>
+        <div className="container login-box w-[500px] h-[330px] grid grid-rows-5 gap-4">
+          <div className=" text-5xl content-center text-nowrap font-bold row-span-1 text-white grid grid-cols-3 ">
+            Log in
           </div>
-          <div className="container row-span-3 grid pt-4 ">
-            <div className="container px-2 text-lg grid grid-cols-3 h-10 gap-5 place-content-start">
-              <Input
-                type="text"
-                id="username"
-                {...register("username", {
-                  required: true,
-                })}
-                className="text-black rounded-sm col-span-full h-[48px] focus:outline-slate-800 w-[360px] "
-                placeholder="Enter your e-mail"
-              />
-            </div>
-            <p className="text-red-500 pl-2">{errors.username?.message}</p>
-            <div className="container px-2 text-lg grid grid-cols-3 h-10 gap-5 place-content-start">
-              <Input
-                type="password"
-                id="password"
-                {...register("password", {
-                  required: true,
-                })}
-                className="text-black rounded-sm col-span-full focus:outline-none h-[50px] w-[360px] "
-                placeholder="Password"
-              />
-            </div>
-            <p className="text-red-500 pl-2">{errors.password?.message}</p>
+          <div className="row-span-1 h-[4rem]">
+            <Input
+              type="email"
+              id="email"
+              placeholder="Email"
+              {...register("email", { required: true })}
+              className="  py-3 rounded-sm col-span-full h-[3rem] focus:outline-slate-800 w-full"
+            />
+            <p className="text-red-500 ">{errors.email?.message}</p>
           </div>
-          <div className="container grid px-4 gap-4 pl-10">
-            <Button
-              type="submit"
-              variant="secondary"
-              className="text-black rounded-sm font-bold text-[19px] h-[48px] w-[360px] "
-            >
-              Log in
-            </Button>
-            <Button
-              variant="secondary"
-              asChild
-              className="text-black rounded-sm font-bold text-[19px] h-[48px] w-[360px] "
-            >
-              <a href="/register">Register</a>
-            </Button>
+          <div className="row-span-1 h-fit">
+            <Input
+              type="password"
+              id="password"
+              placeholder="Password"
+              {...register("password", { required: true })}
+              className="  py-3 rounded-sm col-span-full h-[3rem] focus:outline-slate-800 w-full"
+            />
+            <p className="text-red-500">{errors.password?.message}</p>
+          </div>
+
+          <div className="grid grid-rows-3 row-span-2 gap-4 h-fit mt-5">
+            <div className="row-span-1 h-fit">
+              <Button
+                type="submit"
+                variant="outline"
+                className="  rounded-sm font-[500] h-[3rem] text-[1.187rem] w-full "
+              >
+                Log in
+              </Button>
+            </div>
+            <div className="row-span-1 h-fit">
+              <Button
+                variant="outline"
+                asChild
+                className="   row-span-1 rounded-sm font-[500] h-[3rem] text-[1.187rem] w-full "
+              >
+                <a href="/signup">Register</a>
+              </Button>
+            </div>
+            <div className="row-span-1 h-fit grid justify-center">
+              <Button variant="link" asChild className="text-white text-[1rem]">
+                <a href="/fpasswd">Forgot Password</a>
+              </Button>
+            </div>
           </div>
         </div>
       </form>
