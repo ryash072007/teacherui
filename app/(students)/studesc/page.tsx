@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -16,16 +17,8 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
-import { useRouter } from "next/router";
 const FormSchema = z.object({
-  bio: z
-    .string()
-    .min(10, {
-      message: "Bio must be at least 10 characters.",
-    })
-    .max(160, {
-      message: "Bio must not be longer than 30 characters.",
-    }),
+  bio: z.string(),
 });
 
 const QualificationPage = () => {
@@ -45,7 +38,7 @@ const QualificationPage = () => {
     router.push("/login");
   }
   return (
-    <div className=" w-screen h-screen grid place-content-center">
+    <div className="w-screen h-screen grid place-content-center">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -56,18 +49,16 @@ const QualificationPage = () => {
             name="bio"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-lg">
-                  Qualifications
-                </FormLabel>
+                <FormLabel className="text-lg">Student Description</FormLabel>
                 <FormControl>
                   <Textarea
-                    placeholder="Tell us a little bit about your Qualifications"
+                    placeholder="Brief description about the student"
                     className="resize w-[25rem] h-[10rem]"
                     {...field}
                   />
                 </FormControl>
                 <FormDescription className=" w-[25rem]">
-                  You can <span>mention</span> your previous organizations.
+                  You can <span>AI</span> to generate your response.
                 </FormDescription>
                 <FormMessage />
               </FormItem>
